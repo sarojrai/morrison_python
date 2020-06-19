@@ -10,12 +10,10 @@ INDEX_MAP, JSON_DATA = {}, []
 
 fp = open(CSV_FILE, 'r')
 for each_row in csv.reader(fp):
-    
     if len(each_row) < 9:
         continue
     name1, id1, url1 = each_row[ : 3]
     index1 = INDEX_MAP.get(id1, -1)
-    
     if index1 == -1:
         JSON_DATA.append({"id": id1, "link": url1, "name": name1, "children": []})
         index1 = INDEX_MAP[id1] = len(JSON_DATA) - 1
@@ -30,7 +28,7 @@ fp.close()
 try: 
     json_data=json.dumps(JSON_DATA[1 : ], indent=4)
     json_object = json.loads(json_data)
-    # print(json_data)   
+    print(json_data)   
 except ValueError as e: 
     print ("Is valid json? false")
 # print(json.dumps(JSON_DATA[1 : ], indent=4))
