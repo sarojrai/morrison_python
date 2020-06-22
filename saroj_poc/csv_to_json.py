@@ -70,9 +70,4 @@ class Node:
 
 p1 = Node("data.csv", ["name", "id", "link"])
 p1.csv_to_json()
-       
-
-
-
-
-    
+         
