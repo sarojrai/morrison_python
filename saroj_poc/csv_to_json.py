@@ -8,7 +8,7 @@ import logging
 
 logging.basicConfig(filename='csv_to_json.log',format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
-CSV_FILE = "data1.csv"
+CSV_FILE = "data.csv"
 PARENT_MAP, JSON_DATA = {}, []
 
 FIELDS = ["name", "id", "link"]
