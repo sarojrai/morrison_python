@@ -27,33 +27,46 @@ class Node:
 
             for each_row in csv.reader(fp):
                 column_length = len(each_row)
-                # print(column_length,FIELD_LEN)
-                # if column_length < FIELD_LEN:
-                #     continue
+                
                 i = FIELD_LEN
-                parent_name, parent_id, parent_link = each_row[ : i]
+                # parent_name, parent_id, parent_link = each_row[ : i]
+                
+                parent_key_list = FIELDS.copy()
+                parent_value_list =  each_row[ : i].copy()
+                parent_id = parent_value_list[1]
                 if not PARENT_MAP.__contains__(parent_id):
                     children = []
-                    JSON_DATA.append({ FIELDS[0]: parent_id, FIELDS[1]: parent_name, FIELDS[2]: parent_link, "children": children})
+                    
+                    parent_key_list.append("children")
+                    parent_value_list.append(children)
+                    parent_dict_to_be_appened = dict( zip(parent_key_list,parent_value_list ))
+                    JSON_DATA.append(parent_dict_to_be_appened)
+                    # JSON_DATA.append({ FIELDS[0]: parent_id, FIELDS[1]: parent_name, FIELDS[2]: parent_link, "children": children})
                     PARENT_MAP[parent_id] = children
                 
                 
                 while i < column_length:
                     
-                    child_name, child_id, child_link = each_row[i : (i + FIELD_LEN)]
+                    # child_name, child_id, child_link = each_row[i : (i + FIELD_LEN)]
                     if  all(each_row[i : (i + FIELD_LEN)]):
                         children = []
+                        
+                        child_key_list = FIELDS.copy()
+                        child_value_list =  each_row[i : (i + FIELD_LEN)].copy()
+                        child_id = child_value_list[1]
                         if not PARENT_MAP.__contains__(child_id):
-                            PARENT_MAP[parent_id].append({ FIELDS[0]: child_id, FIELDS[1]: child_name, FIELDS[2]: child_link, "children": children})
+
+                            child_key_list.append("children")
+                            child_value_list.append(children)
+                            child_dict_to_be_appened = dict( zip(child_key_list,child_value_list ))
+                            
+                            PARENT_MAP[parent_id].append(child_dict_to_be_appened)
+                            # PARENT_MAP[parent_id].append({ FIELDS[0]: child_id, FIELDS[1]: child_name, FIELDS[2]: child_link, "children": children})
                             PARENT_MAP[child_id] = children
                         
 
                     parent_id, i = child_id, (i + FIELD_LEN)
                 
-
-                
-
-
 
             fp.close()
             try: 
@@ -70,4 +83,3 @@ class Node:
 
 p1 = Node("data.csv", ["name", "id", "link"])
 p1.csv_to_json()
-         
